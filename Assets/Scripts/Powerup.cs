@@ -9,8 +9,9 @@ public class Powerup : MonoBehaviour
     
     [SerializeField]
     private int powerupID; // 0 = TripleShot 1 = Speed 2 = Shields
+    [SerializeField]
+    private AudioClip _clip;
 
-    // Update is called once per frame
     void Update()
     {
         transform.Translate(Vector3.down * _speed * Time.deltaTime);
@@ -21,16 +22,14 @@ public class Powerup : MonoBehaviour
         }
     }
 
-    private void /// <summary>
-                 /// Sent when another object enters a trigger collider attached to this
-                 /// object (2D physics only).
-                 /// </summary>
-                 /// <param name="other">The other Collider2D involved in this collision.</param>
-    OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Player")
         {
             Player player = other.transform.GetComponent<Player>();
+
+            AudioSource.PlayClipAtPoint(_clip, transform.position);
+
             if (player != null)
             {
                 switch(powerupID)
