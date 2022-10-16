@@ -44,6 +44,8 @@
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\Main_Menu\MainMenu.cs" />
      <Compile Include="Assets\Scripts\SpawnManager.cs" />
+     <Compile Include="Assets\Scripts\Asteroid.cs" />
+     <Compile Include="Assets\Scripts\Explosion.cs" />
      <None Include="Assets\Materials\Shaders\Galaxy.shader" />
     <Reference Include="UnityEngine">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.10f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
