@@ -49,6 +49,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75b34f21d6aaead4c9ac69261f55470a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _speed: 1.5
+  _laserPrefab: {fileID: 3290807492655803238, guid: a7507a371eeee7045bbc436164d76c7e, type: 3}
 --- !u!212 &6093891335105736884
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -146,7 +148,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.1625233, y: 2.808169}
+  m_Size: {x: 2, y: 2.7}
   m_EdgeRadius: 0
 --- !u!95 &3659026463290277025
 Animator:
