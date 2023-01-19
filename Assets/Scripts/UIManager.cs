@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -62,5 +63,16 @@ public class UIManager : MonoBehaviour
       _gameOverText.text = "";
       yield return new WaitForSeconds(0.5f);
     }
+  }
+
+  public void ResumePlay()
+  {
+    GameManager gm = GameObject.Find("Game_Manager").GetComponent<GameManager>();
+    gm.ResumeGame();
+  }
+
+  public void BackToMainMenu()
+  {
+    SceneManager.LoadScene("Main_Menu");
   }
 }
