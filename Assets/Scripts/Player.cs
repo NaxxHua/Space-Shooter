@@ -4,181 +4,188 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField]
-    private float _speed = 3.5f;
-    private float _speedMultiplier = 2;
-    [SerializeField]
-    private GameObject _laserPrefab;
-    [SerializeField]
-    private GameObject _tripleShotPrefab;
-    [SerializeField]
-    private float _fireRate = 0.15f;
-    [SerializeField]
-    private float _canFire = -1f;
-    [SerializeField]
-    private int _lives = 3;
-    private SpawnManager _spawnManager;
-    // Start is called before the first frame update
-    [SerializeField]
-    private bool _isTripleShotActive = false;
-    private bool _isSpeedBoostActive = false;
-    private bool _isShieldsActive = false;
+  [SerializeField]
+  private float _speed = 3.5f;
+  private float _speedMultiplier = 2;
+  [SerializeField]
+  private GameObject _laserPrefab;
+  [SerializeField]
+  private GameObject _tripleShotPrefab;
+  [SerializeField]
+  private float _fireRate = 0.15f;
+  [SerializeField]
+  private float _canFire = -1f;
+  [SerializeField]
+  private int _lives = 3;
+  private SpawnManager _spawnManager;
+  // Start is called before the first frame update
+  [SerializeField]
+  private bool _isTripleShotActive = false;
+  private bool _isSpeedBoostActive = false;
+  private bool _isShieldsActive = false;
 
-    [SerializeField]
-    private GameObject _shieldVisualizer;
+  [SerializeField]
+  private GameObject _shieldVisualizer;
 
-    [SerializeField]
-    private GameObject  _leftEngine, _rightEngine;
+  [SerializeField]
+  private GameObject _leftEngine, _rightEngine;
 
 
 
-    [SerializeField]
-    private int _score;
+  [SerializeField]
+  private int _score;
 
-    private UIManager _uiManager;
-    [SerializeField]
-    private AudioClip _laserSoundClip;
-    private AudioSource _audioSource;
-    void Start()
+  private UIManager _uiManager;
+  [SerializeField]
+  private AudioClip _laserSoundClip;
+  private AudioSource _audioSource;
+  [SerializeField]
+  private GameManager _gameManager;
+
+  void Start()
+  {
+    _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
+    _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+    _audioSource = GetComponent<AudioSource>();
+
+    // take current position = new position (0, 0, 0)
+    if (_gameManager.isCoopMode == false)
     {
-        // take current position = new position (0, 0, 0)
-        transform.position = new Vector3(0, 0, 0);
-        _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
-        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
-        _audioSource = GetComponent<AudioSource>();
-
-        if (_spawnManager == null)
-        {
-            Debug.LogError("The Spawn Manager is NULL.");
-        }
-
-        if (_uiManager == null)
-        {
-            Debug.LogError("The UI Manager is NULL");
-        }
-
-        if (_audioSource == null)
-        {
-            Debug.LogError("AudioSource on the player is null");
-        }
-        else 
-        {
-            _audioSource.clip = _laserSoundClip;
-        }
+      transform.position = new Vector3(0, 0, 0);
     }
 
-    // Update is called once per frame
-    void Update()
+    if (_spawnManager == null)
     {
-        CalculateMovement();
-
-        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire)
-        {
-            FireLaser();
-        };
-    }
-    void CalculateMovement()
-    {
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
-
-        Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
-
-        transform.Translate(direction * _speed * Time.deltaTime);
-
-        transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -3.8f, 0), 0);
-
-        if (transform.position.x > 11.3f)
-        {
-            transform.position = new Vector3(-11.3f, transform.position.y, 0);
-        }
-        else if (transform.position.x < -11.3f)
-        {
-            transform.position = new Vector3(11.3f, transform.position.y, 0);
-        }
+      Debug.LogError("The Spawn Manager is NULL.");
     }
 
-    void FireLaser()
+    if (_uiManager == null)
     {
-        _canFire = Time.time + _fireRate;
-
-
-        if (_isTripleShotActive == true)
-        {
-            Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
-        }
-        else
-        {
-            Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.05f, 0), Quaternion.identity);
-        }
-
-        _audioSource.Play();
+      Debug.LogError("The UI Manager is NULL");
     }
 
-    public void Damage()
+    if (_audioSource == null)
     {
-        if (_isShieldsActive == true)
-        {
-            _isShieldsActive = false;
-            _shieldVisualizer.SetActive(false);
-            return;
-        }
+      Debug.LogError("AudioSource on the player is null");
+    }
+    else
+    {
+      _audioSource.clip = _laserSoundClip;
+    }
+  }
 
-        _lives--;
+  // Update is called once per frame
+  void Update()
+  {
+    CalculateMovement();
 
-        if (_lives == 2)
-        {
-            _leftEngine.SetActive(true);
-        }
-        else if (_lives == 1)
-        {
-            _rightEngine.SetActive(true);
-        }
+    if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire)
+    {
+      FireLaser();
+    };
+  }
+  void CalculateMovement()
+  {
+    float horizontalInput = Input.GetAxis("Horizontal");
+    float verticalInput = Input.GetAxis("Vertical");
 
-        _uiManager.UpdateLives(_lives);
+    Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
 
-        if (_lives < 1)
-        {
-            _spawnManager.OnPlayerDeath();
-            Destroy(this.gameObject);
-        }
+    transform.Translate(direction * _speed * Time.deltaTime);
+
+    transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -3.8f, 0), 0);
+
+    if (transform.position.x > 11.3f)
+    {
+      transform.position = new Vector3(-11.3f, transform.position.y, 0);
+    }
+    else if (transform.position.x < -11.3f)
+    {
+      transform.position = new Vector3(11.3f, transform.position.y, 0);
+    }
+  }
+
+  void FireLaser()
+  {
+    _canFire = Time.time + _fireRate;
+
+
+    if (_isTripleShotActive == true)
+    {
+      Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
+    }
+    else
+    {
+      Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.05f, 0), Quaternion.identity);
     }
 
-    public void TripleShotActive()
+    _audioSource.Play();
+  }
+
+  public void Damage()
+  {
+    if (_isShieldsActive == true)
     {
-        _isTripleShotActive = true;
-        StartCoroutine(TripleShotPowerDownRoutine());
+      _isShieldsActive = false;
+      _shieldVisualizer.SetActive(false);
+      return;
     }
 
-    IEnumerator TripleShotPowerDownRoutine()
+    _lives--;
+
+    if (_lives == 2)
     {
-        yield return new WaitForSeconds(5.0f);
-        _isTripleShotActive = false;
+      _leftEngine.SetActive(true);
+    }
+    else if (_lives == 1)
+    {
+      _rightEngine.SetActive(true);
     }
 
-    public void SpeedBoostActive()
-    {
-        _isSpeedBoostActive = true;
-        _speed *= _speedMultiplier;
-        StartCoroutine(SpeedBoostPowerDownRoutine());
-    }
+    _uiManager.UpdateLives(_lives);
 
-    IEnumerator SpeedBoostPowerDownRoutine()
+    if (_lives < 1)
     {
-        yield return new WaitForSeconds(5.0f);
-        _isSpeedBoostActive = false;
-        _speed /= _speedMultiplier;
+      _spawnManager.OnPlayerDeath();
+      Destroy(this.gameObject);
     }
+  }
 
-    public void ShieldsActive()
-    {
-        _isShieldsActive = true;
-        _shieldVisualizer.SetActive(true);
-    }
+  public void TripleShotActive()
+  {
+    _isTripleShotActive = true;
+    StartCoroutine(TripleShotPowerDownRoutine());
+  }
 
-    public void AddScore(int points)
-    {
-        _score += points;
-        _uiManager.UpdateScore(_score);
-    }
+  IEnumerator TripleShotPowerDownRoutine()
+  {
+    yield return new WaitForSeconds(5.0f);
+    _isTripleShotActive = false;
+  }
+
+  public void SpeedBoostActive()
+  {
+    _isSpeedBoostActive = true;
+    _speed *= _speedMultiplier;
+    StartCoroutine(SpeedBoostPowerDownRoutine());
+  }
+
+  IEnumerator SpeedBoostPowerDownRoutine()
+  {
+    yield return new WaitForSeconds(5.0f);
+    _isSpeedBoostActive = false;
+    _speed /= _speedMultiplier;
+  }
+
+  public void ShieldsActive()
+  {
+    _isShieldsActive = true;
+    _shieldVisualizer.SetActive(true);
+  }
+
+  public void AddScore(int points)
+  {
+    _score += points;
+    _uiManager.UpdateScore(_score);
+  }
 }

@@ -5,26 +5,27 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField]
-    private bool _isGameOver;
+  [SerializeField]
+  private bool _isGameOver;
+  public bool isCoopMode = false;
 
-    private void Update()
+  private void Update()
+  {
+    if (Input.GetKeyDown(KeyCode.R) && _isGameOver == true)
     {
-        if (Input.GetKeyDown(KeyCode.R) && _isGameOver == true)
-        {
-            SceneManager.LoadScene(1); // Current Game Scene
-        }
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-          Application.Quit();
-        }
+      SceneManager.LoadScene(1); // Current Game Scene
     }
 
-    public void GameOver()
+    if (Input.GetKeyDown(KeyCode.Escape))
     {
-        _isGameOver = true;
+      Application.Quit();
     }
+  }
+
+  public void GameOver()
+  {
+    _isGameOver = true;
+  }
 
 
 }
