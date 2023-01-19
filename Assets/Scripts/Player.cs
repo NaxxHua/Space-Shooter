@@ -23,6 +23,8 @@ public class Player : MonoBehaviour
   private bool _isTripleShotActive = false;
   private bool _isSpeedBoostActive = false;
   private bool _isShieldsActive = false;
+  public bool _isPlayerOne = false;
+  public bool _isPlayerTwo = false;
 
   [SerializeField]
   private GameObject _shieldVisualizer;
@@ -41,6 +43,9 @@ public class Player : MonoBehaviour
   private AudioSource _audioSource;
   [SerializeField]
   private GameManager _gameManager;
+
+  public KeyCode[] directions = new KeyCode[5];
+
 
   void Start()
   {
@@ -79,15 +84,15 @@ public class Player : MonoBehaviour
   {
     CalculateMovement();
 
-    if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire)
+    if (Input.GetKeyDown(directions[4]) && Time.time > _canFire)
     {
       FireLaser();
     };
   }
   void CalculateMovement()
   {
-    float horizontalInput = Input.GetAxis("Horizontal");
-    float verticalInput = Input.GetAxis("Vertical");
+    float horizontalInput = (Input.GetKey(directions[2]) ? -1 : 0) + (Input.GetKey(directions[3]) ? 1 : 0);
+    float verticalInput = (Input.GetKey(directions[0]) ? 1 : 0) + (Input.GetKey(directions[1]) ? -1 : 0);
 
     Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
 

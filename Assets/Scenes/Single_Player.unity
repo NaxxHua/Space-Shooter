@@ -375,6 +375,8 @@ MonoBehaviour:
   _canFire: -1
   _lives: 3
   _isTripleShotActive: 0
+  _isPlayerOne: 1
+  _isPlayerTwo: 0
   _shieldVisualizer: {fileID: 947715633}
   _leftEngine: {fileID: 1457316151}
   _rightEngine: {fileID: 1307051624}

@@ -9,7 +9,8 @@ public class Enemy : MonoBehaviour
   [SerializeField]
   private GameObject _laserPrefab;
 
-  private Player _player;
+  private Player _player1;
+  private Player _player2;
 
   private Animator _anim;
 
@@ -22,9 +23,10 @@ public class Enemy : MonoBehaviour
   // Start is called before the first frame update
   void Start()
   {
-    _player = GameObject.Find("Player").GetComponent<Player>();
+    _player1 = GameObject.Find("Player_1").GetComponent<Player>();
+    _player2 = GameObject.Find("Player_2").GetComponent<Player>();
     _audioSource = GetComponent<AudioSource>();
-    if (_player == null)
+    if (_player1 == null)
     {
       Debug.LogError("The Player is null");
     }
@@ -69,12 +71,26 @@ public class Enemy : MonoBehaviour
 
   private void OnTriggerEnter2D(Collider2D other)
   {
-    if (other.tag == "Player")
+    if (other.tag == "Player_1")
     {
-      Player player = other.transform.GetComponent<Player>();
-      if (player != null)
+      Player player1 = other.transform.GetComponent<Player>();
+      if (player1 != null)
       {
-        player.Damage();
+        player1.Damage();
+      }
+
+      _anim.SetTrigger("OnEnemyDeath");
+      _speed = 0;
+      _audioSource.Play();
+      Destroy(this.gameObject, 2.8f);
+    }
+
+    if (other.tag == "Player_2")
+    {
+      Player player2 = other.transform.GetComponent<Player>();
+      if (player2 != null)
+      {
+        player2.Damage();
       }
 
       _anim.SetTrigger("OnEnemyDeath");
@@ -86,9 +102,14 @@ public class Enemy : MonoBehaviour
     if (other.tag == "Laser")
     {
       Destroy(other.gameObject);
-      if (_player != null)
+      if (_player1 != null)
       {
-        _player.AddScore(10);
+        _player1.AddScore(10);
+      }
+
+      if (_player2 != null)
+      {
+        _player2.AddScore(10);
       }
 
       _anim.SetTrigger("OnEnemyDeath");

@@ -479,11 +479,15 @@ MonoBehaviour:
   _canFire: -1
   _lives: 3
   _isTripleShotActive: 0
+  _isPlayerOne: 1
+  _isPlayerTwo: 0
   _shieldVisualizer: {fileID: 947715633}
   _leftEngine: {fileID: 1457316151}
   _rightEngine: {fileID: 1307051624}
   _score: 0
   _laserSoundClip: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
+  _gameManager: {fileID: 516986099}
+  directions: 7700000073000000610000006400000020000000
 --- !u!212 &274608823
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1069,11 +1073,15 @@ MonoBehaviour:
   _canFire: -1
   _lives: 3
   _isTripleShotActive: 0
+  _isPlayerOne: 0
+  _isPlayerTwo: 1
   _shieldVisualizer: {fileID: 925582252}
   _leftEngine: {fileID: 175521868}
   _rightEngine: {fileID: 1676990706}
   _score: 0
   _laserSoundClip: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
+  _gameManager: {fileID: 516986099}
+  directions: 1101000012010000140100001301000000010000
 --- !u!212 &372656251
 SpriteRenderer:
   m_ObjectHideFlags: 0
