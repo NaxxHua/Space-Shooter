@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -74,5 +74,6 @@ public class UIManager : MonoBehaviour
   public void BackToMainMenu()
   {
     SceneManager.LoadScene("Main_Menu");
+    Time.timeScale = 1f;
   }
 }
