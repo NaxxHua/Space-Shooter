@@ -11,10 +11,22 @@ public class GameManager : MonoBehaviour
 
   private void Update()
   {
-    if (Input.GetKeyDown(KeyCode.R) && _isGameOver == true)
+    if (isCoopMode == false)
     {
-      SceneManager.LoadScene(1); // Current Game Scene
+      if (Input.GetKeyDown(KeyCode.R) && _isGameOver == true)
+      {
+        SceneManager.LoadScene(1); // Single Game Scene
+      }
     }
+
+    if (isCoopMode == true)
+    {
+      if (Input.GetKeyDown(KeyCode.R) && _isGameOver == true)
+      {
+        SceneManager.LoadScene(1); // Coop Game Scene
+      }
+    }
+
 
     if (Input.GetKeyDown(KeyCode.Escape))
     {
