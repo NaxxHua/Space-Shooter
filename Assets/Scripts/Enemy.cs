@@ -95,6 +95,13 @@ public class Enemy : MonoBehaviour
     {
       Destroy(other.gameObject);
 
+      _anim.SetTrigger("OnEnemyDeath");
+      _speed = 0;
+      _audioSource.Play();
+
+      Destroy(GetComponent<Collider2D>());
+      Destroy(this.gameObject, 3f);
+
       if (_player1 != null)
       {
         _player1.AddScore(10);
@@ -104,13 +111,6 @@ public class Enemy : MonoBehaviour
       {
         _player2.AddScore(10);
       }
-
-      _anim.SetTrigger("OnEnemyDeath");
-      _speed = 0;
-      _audioSource.Play();
-
-      Destroy(GetComponent<Collider2D>());
-      Destroy(this.gameObject, 2.8f);
     }
   }
 }

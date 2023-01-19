@@ -23,8 +23,13 @@ public class GameManager : MonoBehaviour
     {
       if (Input.GetKeyDown(KeyCode.R) && _isGameOver == true)
       {
-        SceneManager.LoadScene(1); // Coop Game Scene
+        SceneManager.LoadScene(2); // Coop Game Scene
       }
+    }
+
+    if (Input.GetKeyDown(KeyCode.Space) && _isGameOver == true)
+    {
+      SceneManager.LoadScene(0); // Main Menu Scene
     }
 
 
